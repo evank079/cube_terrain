@@ -30,11 +30,11 @@ public:
     void drawInstanced(GLsizei instanceCount) const;
 
     //bind/unbind manually if needed
-    void bind()   const;
+    void bind() const;
     void unbind() const;
 
     //prevents copying (GPU resources aren't copyable)
-    Mesh(const Mesh&)            = delete;
+    Mesh(const Mesh&) = delete;
     Mesh& operator=(const Mesh&) = delete;
 
     //allow moving

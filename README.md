@@ -2,6 +2,11 @@ Description
 ------------
 Cube Terrain is a 3d OpenGL program that creates a messerizing display of infinite cubes with unique, proceeduraly generate terrains in each cube.
 
+
+AI Usage Disclaimer
+---------------------
+This project was created with the help of AI, mainly for code erros, debugging and assisting with the generation of some features.
+
 Controls
 ------------------
 W A S D - Rotetes up, left, down, right respectively at the next center point of the current cube

@@ -65,11 +65,11 @@ void cubo::buildCube(std::vector<Vertex>& vertices, std::vector<unsigned int>& i
     (void)minHeight; (void)maxHeight;
     auto heightAt = [](int, int) { return 0.0f; };
 
-    addFace(vertices, indices, n, {0,0,1}, {1,0,0}, {0,1,0}, {0,0,1},  heightAt); // front
-    addFace(vertices, indices, n, {1,0,0}, {-1,0,0},{0,1,0}, {0,0,-1}, heightAt); // back
-    addFace(vertices, indices, n, {0,0,0}, {1,0,0}, {0,0,1}, {0,-1,0}, heightAt); // bottom
-    addFace(vertices, indices, n, {0,1,1}, {1,0,0}, {0,0,-1},{0,1,0},  heightAt); // top
-    addFace(vertices, indices, n, {0,0,0}, {0,0,1}, {0,1,0}, {-1,0,0}, heightAt); // left
-    addFace(vertices, indices, n, {1,0,0}, {0,0,1}, {0,1,0}, {1,0,0},  heightAt); // right
+    addFace(vertices, indices, n, {0,0,1}, {1,0,0}, {0,1,0}, {0,0,1},  heightAt); //front
+    addFace(vertices, indices, n, {1,0,0}, {-1,0,0},{0,1,0}, {0,0,-1}, heightAt); //back
+    addFace(vertices, indices, n, {0,0,0}, {1,0,0}, {0,0,1}, {0,-1,0}, heightAt); //bottom
+    addFace(vertices, indices, n, {0,1,1}, {1,0,0}, {0,0,-1},{0,1,0},  heightAt); //top
+    addFace(vertices, indices, n, {0,0,0}, {0,0,1}, {0,1,0}, {-1,0,0}, heightAt); //left
+    addFace(vertices, indices, n, {1,0,0}, {0,0,1}, {0,1,0}, {1,0,0},  heightAt); //right
 
 }//end buildCube

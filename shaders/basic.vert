@@ -66,9 +66,9 @@ const float kNoiseScale = 0.7;
 
 //fBm config. More octaves = more detail (and more cost). Lacunarity > 1 spaces the
 //frequencies apart; gain < 1 makes higher octaves quieter.
-const int   kOctaves    = 4;
+const int kOctaves  = 4;
 const float kLacunarity = 2.8;
-const float kGain       = 0.55;
+const float kGain = 0.55;
 
 //ridged noise: forms sharp ridge-lines along vnoise's iso-surfaces. Output [0,1]
 //with peaks where vnoise crosses 0.5; gives mountain-ridge topology.
@@ -89,10 +89,10 @@ float fbm(vec3 p) {
 
     for (int i = 0; i < kOctaves; i++) {
         
-        sum    += ridged(p * frq) * amp;
+        sum += ridged(p * frq) * amp;
         ampSum += amp;
-        amp    *= kGain;
-        frq    *= kLacunarity;
+        amp *= kGain;
+        frq *= kLacunarity;
 
     }//end for loop
 
@@ -102,7 +102,7 @@ float fbm(vec3 p) {
 
 void main() {
 
-    vec3  worldPos = (model * vec4(aPos, 1.0)).xyz;
+    vec3 worldPos = (model * vec4(aPos, 1.0)).xyz;
     float u = fbm(worldPos * kNoiseScale);
     float h = mix(uMinHeight, uMaxHeight, pow(u, kHeightBias));
 
@@ -110,12 +110,12 @@ void main() {
 
     //per cube sun: hash the cube's world-space anchor to a direction, biased upward.
     vec3 cubeAnchor = model[3].xyz;
-    vec3 sunRand    = hash33(cubeAnchor) * 2.0 - 1.0;   // [-1, 1] per component
-    vSunDir         = normalize(sunRand + vec3(0.0, kSunUpBias, 0.0));
+    vec3 sunRand = hash33(cubeAnchor) * 2.0 - 1.0;   // [-1, 1] per component
+    vSunDir = normalize(sunRand + vec3(0.0, kSunUpBias, 0.0));
 
     vDisplacement = h;
-    vWorldPos     = displacedWorld.xyz;
-    vFaceNormal   = aNormal;   // model is pure translation, so no rotation needed
-    gl_Position   = projection * view * displacedWorld;
+    vWorldPos = displacedWorld.xyz;
+    vFaceNormal = aNormal; // model is pure translation, so no rotation needed
+    gl_Position = projection * view * displacedWorld;
 
 }//end main

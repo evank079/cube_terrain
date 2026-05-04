@@ -17,15 +17,15 @@ enum class Turn { None, PitchUp, PitchDown, YawLeft, YawRight };
 
 struct Camera {
 
-    glm::vec3 pos = {0.5f, 0.5f, 0.5f};   // start at a cube center
+    glm::vec3 pos = {0.5f, 0.5f, 0.5f}; //start at a cube center
     glm::ivec3 forward = {0, 0, -1};
     glm::ivec3 up = {0, 1, 0};
     Turn queued = Turn::None;
 
     //Smoothing: integer forward/up are the logical state || quats are the rendered state
-    glm::quat  fromOrient = glm::quat(1, 0, 0, 0);
-    glm::quat  toOrient   = glm::quat(1, 0, 0, 0);
-    float turnT      = 1.0f;   //1 = settled
+    glm::quat fromOrient = glm::quat(1, 0, 0, 0);
+    glm::quat toOrient = glm::quat(1, 0, 0, 0);
+    float turnT = 1.0f;   //1 = settled
 
 };
 
@@ -77,7 +77,7 @@ int main() {
     Shader shader("shaders/basic.vert","shaders/basic.frag");
 
     //geometry generation, one subdivided cube reused for every lattice instance
-    constexpr int   kSubdiv    = 69;
+    constexpr int kSubdiv = 69;
     constexpr float kMinHeight = 0.0f;
     constexpr float kMaxHeight = 0.30f;   //inward displacement, max safe value is < 0.5 
 
@@ -91,7 +91,7 @@ int main() {
     for (const auto& v : cubeVerts) {
 
         vertices.push_back(v.position.x); vertices.push_back(v.position.y); vertices.push_back(v.position.z);
-        vertices.push_back(v.normal.x);   vertices.push_back(v.normal.y);   vertices.push_back(v.normal.z);
+        vertices.push_back(v.normal.x); vertices.push_back(v.normal.y);   vertices.push_back(v.normal.z);
         vertices.push_back(v.displacement);
 
     }//end for loop
@@ -110,11 +110,11 @@ int main() {
 
     //camera + lattice settings
     Camera cam;
-    constexpr float kSpeed = 0.5f; // cubes per second
-    constexpr int   kRadius = 8; // (2*kRadius+1)^3 cubes drawn each frame
+    constexpr float kSpeed = 0.5f; //cubes per second
+    constexpr int kRadius = 8; //(2*kRadius+1)^3 cubes drawn each frame
     constexpr float kCullDistance = (float)kRadius; // cubes farther than this from the camera are skipped
     constexpr float kCullDistSq = kCullDistance * kCullDistance;
-    constexpr float kTurnDuration = 0.5f; // seconds to slerp through a 90° turn
+    constexpr float kTurnDuration = 0.5f; //seconds to slerp through a 90° turn
 
     glm::mat4 projection = glm::perspective(glm::radians(60.0f), gfx.getAspectRatio(), 0.1f, 100.0f);
 
@@ -153,19 +153,19 @@ int main() {
             cam.fromOrient = glm::slerp(cam.fromOrient, cam.toOrient, cam.turnT);
             applyTurn(cam);
             cam.toOrient = orientFromFU(glm::vec3(cam.forward), glm::vec3(cam.up));
-            cam.turnT    = 0.0f;
+            cam.turnT = 0.0f;
             
         }//end if
 
         cam.turnT = std::min(1.0f, cam.turnT + dt / kTurnDuration);
         glm::quat smoothed = glm::slerp(cam.fromOrient, cam.toOrient, cam.turnT);
-        glm::vec3 fwd      = smoothed * glm::vec3(0, 0, -1);
-        glm::vec3 up       = smoothed * glm::vec3(0, 1,  0);
-        glm::mat4 view     = glm::lookAt(cam.pos, cam.pos + fwd, up);
+        glm::vec3 fwd = smoothed * glm::vec3(0, 0, -1);
+        glm::vec3 up = smoothed * glm::vec3(0, 1,  0);
+        glm::mat4 view = glm::lookAt(cam.pos, cam.pos + fwd, up);
 
         //bind shader and set per-frame uniforms
         shader.bind();
-        shader.setMat4 ("view",       view);
+        shader.setMat4 ("view", view);
         shader.setMat4 ("projection", projection);
         shader.setFloat("uMinHeight", kMinHeight);
         shader.setFloat("uMaxHeight", kMaxHeight);
@@ -176,14 +176,14 @@ int main() {
         for (int dy = -kRadius; dy <= kRadius; ++dy)
         for (int dz = -kRadius; dz <= kRadius; ++dz) {
 
-            glm::ivec3 cell       = anchor + glm::ivec3(dx, dy, dz);
+            glm::ivec3 cell = anchor + glm::ivec3(dx, dy, dz);
             glm::vec3  cubeCenter = glm::vec3(cell) + 0.5f;
-            glm::vec3  delta      = cubeCenter - cam.pos;
+            glm::vec3  delta = cubeCenter - cam.pos;
             if (glm::dot(delta, delta) > kCullDistSq) continue;
 
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(cell));
-            shader.setMat4("model", model);
-            mesh.draw();
+                glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(cell));
+                shader.setMat4("model", model);
+                mesh.draw();
 
         }//end for loop
 
